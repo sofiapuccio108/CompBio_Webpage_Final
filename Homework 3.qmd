@@ -1,0 +1,92 @@
+---
+title: "Homework 3 QMD"
+format: html
+---
+
+QUESTION 1
+```{r}
+# Define variables 
+x <- 1.1
+a <- 2.2
+b <- 3.3
+z <- x^a^b
+print (z)
+
+# This computes a^b first, then raises x to that power
+z <- (x^a)^b
+print (z)
+
+z <- 3*x^3 + 2*x^2 + 1
+z
+# This evaluates a cubic polynomial at x = 1.1
+
+```
+
+QUESTION 2 
+
+```{r}
+# Create a vector that increases from 1 to 8, then decreases back to 1. Both sequences were put in the same line for sake of convienence. 
+v1 <- c(seq(1, 8), seq(7, 1))
+
+# Create a vector where each number i is repeated i times (1 once, 2 twice, etc.)
+v2 <- rep(1:5, times = 1:5)
+# rep() repeats values
+
+# Create a decreasing version of the previous vector, this involves just switching the rep shorthand
+v3 <- rep(5:1, times = 1:5)
+
+```
+
+QUESTION 3 
+```{r}
+# Generate two random numbers between 0 and 1 to represent x and y coordinates
+coords <- runif(2)
+# note: these can be interpreted as (x,y) coordnites 
+
+# r is the distance from the origin to the point, this makes it a polar function if it has a noted direction and angel
+
+# Calculate the radius from the origin (0,0), this way you can have the distance from the origin as well as the angle of direction. 
+# This uses the Pythagorean theorem: r = sqrt(x^2 + y^2)
+r <- sqrt(coords[1]^2 + coords[2]^2)
+
+# Calculate the angular coordinate (theta) using atan 
+theta <- atan(coords[2] / coords[1])
+# Combine r and theta into vector representing polar coordinates with both angle and radius 
+polar <- c(r = r, theta = theta)
+polar
+```
+
+QUESTION 4
+```{r}
+# Creating a vector line of Noahs Ark  
+# Initial queue (sheep is at the front)
+queue <- c("sheep", "fox", "owl", "ant")
+# The serpent arrives and gets in line (at the end)
+queue <- c(queue, "serpent")
+# The sheep (which is the first animal) enters the ark (leaves from the front)
+queue <- queue[-1]
+# The donkey arrives and gets to the front of the line in front of the rest of the queue? 
+queue <- c("donkey", queue)
+# The serpent leaves, use exclimation point 
+queue <- queue[queue != "serpent"]
+# The owl also leaves
+queue <- queue[queue != "owl"]
+# The aphid arrives and the ant say to cut him in line, use the double == sign to say equal
+ant_pos <- which(queue == "ant")
+queue <- append(queue, "aphid", after = ant_pos - 1)
+
+# input final queue
+queue
+
+# figure out the position of the ant, aka, what is the position equal to  
+which(queue == "aphid")
+# he is in position three
+```
+
+QUESTION 5
+```{r}
+#integers from 1 to 100 that are not divisable by 2, 3 or 7 
+nums <- 1:100
+subset(1:100, (1:100) %% 2 != 0 & (1:100) %% 3 != 0 & (1:100) %% 7 != 0)
+# creating subset, adding all of the conditions 
+```
