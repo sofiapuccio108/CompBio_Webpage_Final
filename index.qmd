@@ -9,3 +9,5 @@ To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
 
 Homework 3[Link](Homework 3.html)
+
+Homework 4[Link](Homework 4.html)

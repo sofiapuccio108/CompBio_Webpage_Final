@@ -1,0 +1,26 @@
+---
+title: "Homework 4.QMD"
+format: html
+---
+
+Question 1 
+
+```{r}
+# Assign to the variable n_dims a single random integer between 3 and 10.
+
+n_dims <- sample(3:10, 1)
+print(n_dims)
+
+# Create a vector of consecutive integers from 1 to n_dims^2
+vals <- 1:(n_dims^2)
+print(vals)
+
+# Randomly reshuffle the values
+vals <- sample(vals)
+
+# Create a square matrix
+my_matrix <- matrix(vals, nrow = n_dims, ncol = n_dims)
+my_matrix #print 
+```
+
+Question 2 
