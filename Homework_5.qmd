@@ -1,0 +1,71 @@
+---
+title: "Homework 5"
+format: html
+---
+###### Homework 5 ######
+## Sofia Puccio 02/11/2026 ###
+
+##Question 1## 
+```{r}
+# Create a funtion that takes the parameters required to run a logistic growth model and returns a dataframe with columns for population size and time.
+logistic_growth <- function(N0, r, K, tfinal, tstep) {
+  
+  # Create time vector
+  time <- seq(from = 0, to = tfinal, by = tstep)
+  
+  # Closed-form logistic growth equation
+  N <- K / (1 + ((K - N0) / N0) * exp(-r * time))
+  
+  # Return data frame
+  output <- data.frame(
+    time = time,
+    population = N
+  )
+  
+  return(output)
+}
+# Inputting values to make sure that this code works 
+# This will ideally return a data frame with time going from 0 to tfinal and a population at each time mark 
+log_df <- logistic_growth(
+  N0 = 10,
+  r = 0.3,
+  K = 100,
+  tfinal = 50,
+  tstep = 0.1
+)
+
+head(log_df)
+#sucsess! 
+
+# Question 2###
+# Create a second function that takes the above dataframe as its input and creates a plot of population size over time as a side effect.
+# Taking a dataframe that is produced by the population model and creating a plot of population size over time 
+
+# load the necessary package from library 
+library(ggplot2)
+# create the plot 
+plot_population <- function(df) {
+  
+  plot(
+    x = df$time,
+    y = df$N,
+    type = "l",
+    lwd = 2,
+    xlab = "Time",
+    ylab = "Population Size",
+    main = "Population Growth Over Time"
+  )
+}
+# "2 lines of code requirement"
+df <- logistic_growth(N0 = 10, r = 0.02, K = 100, tfinal = 500, tstep = 1)
+plot_population(df)
+
+```
+
+
+
+
+
+
+
+
