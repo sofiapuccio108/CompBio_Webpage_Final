@@ -1,0 +1,150 @@
+---
+title: "Homework_8"
+format: html
+---
+
+```{r}
+
+## Homework 8 ##
+# Sofia Puccio #
+# 03/04/2026 #
+
+# Loops and Randomization Tests 
+
+# Count zeros in a For Loop 
+count_zeroes_loop <- function(x) {
+  
+  counter <- 0   # first, initialize a counter variable to store number of zeroes
+  
+  # then, loop through each element in the vector
+  for(i in 1:length(x)) {
+    
+    # check if the current element equals zero
+    if(x[i] == 0) {
+      
+      counter <- counter + 1   # add 1 to counter if value is zero
+    }
+  }
+  
+  return(counter)   # this will return total number of zeroes
+}
+
+# Converting this into a single line of code using subsetting
+count_zeroes_subset <- function(x) {
+  
+  sum(x == 0)
+  
+}
+# x == 0 creates a logical vector (TRUE/FALSE)
+# sum () counts TRUE values (TRUE = 1, FALSE = 0)
+
+# Matrix of Row x Column Products 
+row_col_product_matrix <- function(n_rows, n_cols) {
+  
+  # create empty matrix filled with 0s
+  mat <- matrix(0, nrow = n_rows, ncol = n_cols)
+  
+  # then we will loop over rows
+  for(i in 1:n_rows) {
+    
+    # additionally, we will loop over columns
+    for(j in 1:n_cols) {
+      
+      # fill each cell with row number * column number
+      mat[i, j] <- i * j
+    }
+  }
+  
+  return(mat)   # this will return a completed matrix where each element is now a product of the row x column number 
+}
+
+# Perform a randomization test on your data 
+
+# Simulate a dataset with 3 groups 
+set.seed(123)   # first we need to make the simulation reproducible
+
+n <- 30   # input the sample size per group
+
+# create group labels (A, B, C repeated 30 times each)
+group <- rep(c("A", "B", "C"), each = n)
+
+# generate response values from normal distributions
+# each group has a different mean
+response <- c(
+  rnorm(n, mean = 5, sd = 1),   # Group A
+  rnorm(n, mean = 7, sd = 1),   # Group B
+  rnorm(n, mean = 9, sd = 1)    # Group C
+)
+
+# combine into data frame
+df <- data.frame(
+  group = group,
+  response = response
+)
+# This will simulate 3 distinctly different groups, each group having their own mean. This creates what we will see as our "observed" dataset
+
+# Creating a reshuffling function that reshuffles the response variable, and calculates the new mean of the shuffled data
+reshuffle_means <- function(data) {
+  
+  # randomly shuffle the response values
+  shuffled_response <- sample(data$response)
+  
+  # copy original dataset
+  shuffled_data <- data
+  
+  # replace response column with shuffled values
+  shuffled_data$response <- shuffled_response
+  
+  # calculate mean for each group in reshuffled data
+  means <- tapply(shuffled_data$response,
+                  shuffled_data$group,
+                  mean)
+  
+  return(means)   # returns a vector of 3 means
+}
+# This function will break the link between the group and the response and keeps the group labels the same 
+
+# Repeat 100 times using a For Loop 
+# create empty data frame to store results
+results <- data.frame(
+  replicate = 1:100,
+  mean_A = NA,
+  mean_B = NA,
+  mean_C = NA
+)
+# repeat reshuffling 100 times
+for(i in 1:100) {
+  
+  # call custom reshuffle function
+  new_means <- reshuffle_means(df)
+  
+  # store each group's mean in correct column
+  results$mean_A[i] <- new_means["A"]
+  results$mean_B[i] <- new_means["B"]
+  results$mean_C[i] <- new_means["C"]
+}
+
+# Each iteration present reshuffles data, calculates 3 new means, stores them in a row, and build a null distribution of group means
+
+# Time to make a plot using qplot()
+library(ggplot2)
+
+# histogram for group A reshuffled means
+qplot(results$mean_A, bins = 20)
+
+# histogram for group B reshuffled means
+qplot(results$mean_B, bins = 20)
+
+# histogram for group C reshuffled means
+qplot(results$mean_C, bins = 20)
+
+# In this plot, the original means were roughly A=5, B=7, and C=9, but after reshuffling, all distributions center around the overall mean. Additionally, the three reshuffled histograms overlap heavily, and differences dissapear under random assignment. 
+# This is because reshuffling simulates the null hypothesis (there is no real group effect)
+
+
+
+
+
+
+
+```
